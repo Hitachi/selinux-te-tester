@@ -1,0 +1,6 @@
+dir, /var/www
+file, /var/www/html/index.html
+file, /etc/shadow
+file, /etc/passwd
+port, 1-10
+port, 8080

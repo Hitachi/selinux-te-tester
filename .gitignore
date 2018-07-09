@@ -1,0 +1,6 @@
+*.pyc
+*.BAK
+*.swp
+nohup.out
+module
+work

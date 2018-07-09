@@ -1,0 +1,36 @@
+# coding: utf-8
+
+# Copyright (C) 2018  Hitachi, Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+require {
+  type ${target_domain};
+  type user_devpts_t;
+}
+
+type ${module}_exec_t;
+files_type(${module}_exec_t)
+
+role ${user_role} types ${target_domain};
+
+type_transition ${user_domain} ${module}_exec_t : process ${target_domain};
+allow ${user_domain} ${target_domain}: process transition;
+allow ${user_domain} ${module}_exec_t : file { getattr open read execute ioctl };
+allow ${target_domain} ${module}_exec_t : file { entrypoint read open getattr ioctl };
+
+#Allow to load with config file.
+type ${module}_config_t;
+files_type(${module}_config_t)
+allow ${target_domain} ${module}_config_t : file { read open getattr ioctl };
